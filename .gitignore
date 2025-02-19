@@ -1,0 +1,6 @@
+__pycache__/
+test*
+.DS_Store
+.venv
+*.png
+selenium_sample.py
