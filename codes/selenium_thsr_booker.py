@@ -39,7 +39,7 @@ driver.find_element(By.XPATH, f"//span[@class='flatpickr-day' and @aria-label='{
 
 #驗證碼-圖
 captcha_img = driver.find_element(by=By.ID, value='BookingS1Form_homeCaptcha_passCode')
-captcha_img.screenshot('chptcha.png') #截圖存成檔案
+captcha_img.screenshot('captcha.png') #截圖存成檔案
 
 #ocr 辨識
 captcha_code = get_captcha_code()
