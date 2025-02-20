@@ -4,3 +4,4 @@ test*
 .venv
 *.png
 selenium_sample.py
+tempCodeRunnerFile.py
