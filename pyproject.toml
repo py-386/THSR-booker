@@ -1,18 +1,17 @@
-[project]
-name = "selenium-thsr"
+[tool.poetry]
+name = "thsr-booker"
 version = "0.1.0"
 description = ""
-authors = [
-    {name = "py-386",email = "billy121458596@gmail.com"}
-]
+authors = ["TY <tyyyy66@icloud.com>"]
 readme = "README.md"
-requires-python = ">=3.12,<3.13"
-dependencies = [
-    "selenium (>=4.28.1,<5.0.0)",
-    "ddddocr (>=1.5.6,<2.0.0)"
-]
+
+[tool.poetry.dependencies]
+python = "^3.12, <3.13"
+ddddocr = "^1.5.6"
+selenium = "^4.29.0"
+chromedriver-autoinstaller = "^0.6.4"
 
 
 [build-system]
-requires = ["poetry-core>=2.0.0,<3.0.0"]
+requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
