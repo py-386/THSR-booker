@@ -10,6 +10,8 @@ python = "^3.12, <3.13"
 ddddocr = "^1.5.6"
 selenium = "^4.29.0"
 chromedriver-autoinstaller = "^0.6.4"
+pydantic = "^2.10.6"
+pyyaml = "^6.0.2"
 
 
 [build-system]
