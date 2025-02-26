@@ -3,5 +3,6 @@ test*
 .DS_Store
 .venv
 *.png
-selenium_sample.py
+ingnore/
+workflow/
 tempCodeRunnerFile.py
