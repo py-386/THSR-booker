@@ -24,8 +24,6 @@ def chat_with_chatgpt(user_message, system_prompt):
     return completion.choices[0].message.content 
 
 
-
-
 # print(completion) #這是這個服務給你的結果
 # print(completion.choices[0].message) #預設有多個答案，但通常是一個，都擷取inx[0]
 # print(completion.choices[0].message.content) #直接找到字串

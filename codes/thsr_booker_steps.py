@@ -19,7 +19,7 @@ def create_driver():
     driver.implicitly_wait(2)
 
 def booking_with_info(start_station, dest_station, start_time, start_date):
-### 第一個頁面
+    ### 第一個頁面
     accept_cookie_button = driver.find_element(by=By.ID, value='cookieAccpetBtn')
     # time.sleep(0.5)
     accept_cookie_button.click()
@@ -58,11 +58,12 @@ def booking_with_info(start_station, dest_station, start_time, start_date):
 
         #ocr 辨識
         captcha_code = get_captcha_code()
+        time.sleep(1)
 
         #填入驗證碼
         captcha_input = driver.find_element(By.ID, 'securityCode')
         captcha_input.send_keys(captcha_code) #輸入驗證碼
-        time.sleep(1)
+        # time.sleep(1)
 
         #開始查詢
         driver.find_element(By.ID, 'SubmitButton').click()
@@ -99,7 +100,6 @@ def booking_with_info(start_station, dest_station, start_time, start_date):
         
 
     # show trains codes
-
     for counter, train in enumerate(trains_info):
         print(f"""{counter:>3}. - {train['train_code']:>4} 車次，
             行駛時間: {train['duration']}， {train['depart_time']} -> {train['arrival_time']}""")
@@ -116,12 +116,10 @@ def select_train_and_submit_booking(trains_info, which_train=None):
     
 
     # Submit booking requests 
-
     driver.find_element(by=By.NAME, value='SubmitButton').click()
 
 
     ###第三個頁面
-    
     driver.find_element(
             By.CLASS_NAME, 'ticket-summary').screenshot('thsr_summary.png')
 

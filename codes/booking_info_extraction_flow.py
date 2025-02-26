@@ -11,8 +11,7 @@ standard_format = {
     '出發時辰': 'H:S'
 }
 
-def extract_dict_from_string(input_string):
-    # 定義正則表達式來匹配字典內容
+def extract_dict_from_string(input_string): # 定義正則表達式來匹配字典內容
     pattern = r"\{\s*'[^']*':\s*'[^']*'(?:,\s*'[^']*':\s*'[^']*')*\s*\}"
     match = re.search(pattern, input_string)
 
@@ -32,10 +31,11 @@ def ask_booking_information():
 
     system_prompt = f"""
             我想要從回話取得訂票資訊，包含：出發站、到達站、出發日期、出發時辰。
-            今天是 {today}，若有明天或後天的指令請幫我推算日期，請把資料整理成python dictionary格式，例如：{standard_format}，
-            不知道就填空字串，且回傳不包含其他內容。
+            今天是 {today}，若有明天或後天的指令請幫我推算日期，請把資料整理成python dictionary格式，
+            例如：{standard_format}，不知道就填空字串，且回傳不包含其他內容。
             """
-    booking_info = extract_dict_from_string(chat_with_chatgpt(user_response, system_prompt)) #正規表示式 處理結果
+    booking_info = extract_dict_from_string(
+                    chat_with_chatgpt(user_response, system_prompt)) #正規表示式 處理結果
     return booking_info
 
 def ask_missing_information(booking_info):
