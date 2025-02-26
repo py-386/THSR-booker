@@ -1,8 +1,10 @@
 __pycache__/
+ingnore/
+workflow/
+
 test*
 .DS_Store
 .venv
 *.png
-ingnore/
-workflow/
+
 tempCodeRunnerFile.py
