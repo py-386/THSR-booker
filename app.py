@@ -26,6 +26,7 @@ from codes.booking_info_extraction_flow import (
 
 from codes.thsr_booker_steps import (
                     create_driver,
+                    driver_quit,
                     booking_with_info,
                     select_train_and_submit_booking)
 
@@ -91,6 +92,12 @@ def handle_message(event):
         update_user_data(user_id, intent="訂高鐵") # 更新意圖為 "訂高鐵"
         # 問第一個問題: "請輸入你的高鐵訂位資訊..."
         bot_response = "請輸入您的高鐵訂位資訊，包含: 出發站、到達站、出發日期、出發時辰: "
+
+    elif user_message == "取消":
+        update_user_data(user_id, intent = "")
+        
+        bot_response = "流程取消"
+        
 
     elif user_data.get("intent") == "訂高鐵": #意圖判斷
         #上一輪的資訊狀態
@@ -159,7 +166,7 @@ def handle_message(event):
     else:
         bot_response = chat_with_chatgpt(
             user_message=user_message,
-            system_prompt="回應二十字以內，並在換行後提示一句話: (請輸入'訂高鐵'開始訂票流程。)"
+            system_prompt="回應二十字以內，並在換行後提示一句話: (請輸入'訂高鐵'開始訂票流程。)，並在換一行後提示: (輸入'取消'結束流程並重新開始。)"
         )
         
     response_messages = [TextMessage(text=bot_response)]

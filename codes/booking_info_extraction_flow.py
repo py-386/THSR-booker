@@ -31,7 +31,8 @@ def ask_booking_information():
 
     system_prompt = f"""
             我想要從回話取得訂票資訊，包含：出發站、到達站、出發日期、出發時辰。
-            今天是 {today}，若有明天或後天的指令請幫我推算日期，請把資料整理成python dictionary格式，
+            今天是 {today}，若有明天或後天的指令請幫我推算日期，也要注意用年份判斷二月有沒有29號，
+            請把資料整理成python dictionary格式，
             例如：{standard_format}，不知道就填空字串，且回傳不包含其他內容。
             """
     booking_info = extract_dict_from_string(
@@ -50,8 +51,8 @@ def ask_missing_information(booking_info):
 
         system_prompt = f"""我想要從回話取的訂票資訊，包含{", ".join(missing_slots)}，
                             並與{booking_info}合併，今天是{today}，若有明天或後天的指令請幫我推算日期，
-                            請把資料整理成python dictionary格式，例如: {standard_format}，
-                            不知道就填空字串，且回傳不包含其他內容。"""
+                            ，也要注意用年份判斷二月有沒有29號，請把資料整理成python dictionary格式，
+                            例如: {standard_format}，不知道就填空字串，且回傳不包含其他內容。"""
 
         booking_info = extract_dict_from_string(chat_with_chatgpt(user_response, system_prompt))
         return booking_info
@@ -63,7 +64,14 @@ def convert_date_to_thsr_format(booking_info):
         "07": "七月", "08": "八月", "09": "九月",
         "10": "十月", "11": "十一月", "12": "十二月",
     }
+    map_day_word = {"01": "1", "02": "2", "03": "3",
+                    "04": "4", "05": "5", "06": "6" ,
+                    "07": "7", "08": "8", "09": "9"}
+    booking_info['出發日期_database'] = booking_info['出發日期']  # 將日期元格式存下來給資料庫存取
     Year, Month, Day = booking_info['出發日期'].split('/')
+    if Day in map_day_word:
+        Day = map_day_word[Day]
+
     booking_info['出發日期'] = f"{map_number_to_chinese_word[Month]} {Day}, {Year}"
     print(f"格式轉換後......: {booking_info}")
     return booking_info

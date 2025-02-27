@@ -18,6 +18,9 @@ def create_driver():
     driver.get('https://irs.thsrc.com.tw/IMINT/')
     driver.implicitly_wait(2)
 
+def driver_quit():
+    driver.quit()
+
 def booking_with_info(start_station, dest_station, start_time, start_date):
     ### 第一個頁面
     accept_cookie_button = driver.find_element(by=By.ID, value='cookieAccpetBtn')
@@ -50,7 +53,7 @@ def booking_with_info(start_station, dest_station, start_time, start_date):
     driver.find_element(By.XPATH,
             f"//span[(@class='flatpickr-day' or @class='flatpickr-day today selected') and @aria-label='{start_date}']").click()
 
-    
+
     while True:
         #驗證碼-截圖
         captcha_img = driver.find_element(by=By.ID, value='BookingS1Form_homeCaptcha_passCode')
@@ -106,19 +109,23 @@ def booking_with_info(start_station, dest_station, start_time, start_date):
 
     return trains_info
 
-def select_train_and_submit_booking(trains_info, which_train=None):
+def select_train_and_submit_booking(trains_info, booking_info, which_train=None):
 
     if which_train is None:
         #如果沒有選擇車次，則由使用者選擇(一般程式的執行流程，採用用CMD輸入)
         which_train = int(input("Choose your train. Enter from 0~9 : "))
 
     trains_info[which_train]['radio_box'].click()
-    
+
+    booking_info['train_code'] = trains_info[which_train]['train_code']
 
     # Submit booking requests 
     driver.find_element(by=By.NAME, value='SubmitButton').click()
 
-
+    total_price = driver.find_element(by=By.ID, value='TotalPrice').text
+    price = (total_price.split(' '))[-1]
+    booking_info['price'] = int(price)
+    print(booking_info)
     ###第三個頁面
     driver.find_element(
             By.CLASS_NAME, 'ticket-summary').screenshot('thsr_summary.png')
@@ -130,20 +137,33 @@ def select_train_and_submit_booking(trains_info, which_train=None):
     # id_choose = input("0. 身分證字號  1. 護照/居留證/入出境許可證號碼 : ")
     # ID_code_select.select_by_value(id_choose)
 
-    # id_numbers = input("請輸入證號 : ")
+    user_name = input("請輸入姓名 : ")
+
+    personal_id = input("請輸入證號 : ")
     personal_id_box = driver.find_element(by=By.ID, value='idNumber')
-    personal_id = os.getenv('PERSONAL_ID')
+    # personal_id = os.getenv('PERSONAL_ID')
     personal_id_box.send_keys(personal_id)
+    
 
-    # phone_number = input("手機號碼或市話 (選填) : ")
+
+    user_phone_number = input("手機號碼或市話 : ")
     phone_number_box = driver.find_element(by=By.ID, value='mobilePhone')
-    phone_number = os.getenv('PERSONAL_PHONE_NUMBER')
-    phone_number_box.send_keys(phone_number)
+    # user_phone_number = os.getenv('PERSONAL_PHONE_NUMBER')
+    phone_number_box.send_keys(user_phone_number)
 
-    # email = input("請輸入你的 e-mail (選填) : ")
+    user_email = input("請輸入你的 e-mail (選填) : ")
     email_box = driver.find_element(by=By.ID, value='email')
-    email = os.getenv('PERSONAL_EMAIL')
-    email_box.send_keys(email)
+    # user_email = os.getenv('PERSONAL_EMAIL')
+    email_box.send_keys(user_email)
+    if user_email == "":
+        user_email = None
+
+    booking_info.update({
+                        'user_phone_number': user_phone_number,
+                        'user_email': user_email,
+                        'user_name': user_name})
+
+    print(booking_info)
 
     # time.sleep(1000)
 
@@ -159,7 +179,7 @@ def select_train_and_submit_booking(trains_info, which_train=None):
     print("\n訂票完成! 請在期限內繳款\n")
 
     driver.quit()
-    return screenshot_filename
+    return booking_info
 
 
 

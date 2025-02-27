@@ -6,6 +6,8 @@ from codes.booking_info_extraction_flow import (
                                         ask_booking_information,
                                         ask_missing_information,
                                         convert_date_to_thsr_format)
+from codes.database import data_to_database
+
 
 
 
@@ -24,8 +26,10 @@ def main():
                 start_date=booking_info['出發日期'],
                 start_time=booking_info['出發時辰'])
     # step 5
-    select_train_and_submit_booking(trains_info)
-
+    booking_info = select_train_and_submit_booking(trains_info, booking_info)
+    # step 6 database
+    data_to_database(booking_info)
+    
 
 if __name__ == "__main__":
     main()
