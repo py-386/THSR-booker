@@ -31,7 +31,6 @@ from codes.thsr_booker_steps import (
                     select_train_and_submit_booking)
 
 
-
 app = Flask(__name__)
 
 # 從環境變數裏頭取得access token與channel secret
@@ -179,7 +178,6 @@ def handle_message(event):
                 messages=response_messages
             )
         )
-
 
 if __name__ == "__main__":
     app.run(debug=True, port=5001)

@@ -9,8 +9,6 @@ from codes.booking_info_extraction_flow import (
 from codes.database import data_to_database
 
 
-
-
 def main():
     create_driver()
     # step 1
